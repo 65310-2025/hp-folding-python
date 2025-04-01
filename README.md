@@ -7,3 +7,4 @@ It works, attached is a plot of the folded test sequence: HPHPPHHPHPPHPHHPPHPH
 
 Implementation: https://coauthor.csail.mit.edu/6.5310-2025/m/DmmuWS2eozpPEcAEQ
 Design: https://coauthor.csail.mit.edu/6.5310-2025/m/nQckBCvtayPMEaAYB
+Colab notebook: https://colab.research.google.com/drive/1DRFKu6lEftaHymJ7rGmIuCclIdomIcuW?usp=sharing
