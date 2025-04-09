@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# < 1 ]; then
+if [ $# -lt 1 ]; then
   echo usage: "$0" N
   echo where N is the length of the HP sequences to test
   exit 1
