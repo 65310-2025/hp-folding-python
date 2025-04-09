@@ -1,11 +1,19 @@
 #!/bin/bash
 
+if [ $# < 1 ]; then
+  echo usage: "$0" N
+  echo where N is the length of the HP sequences to test
+  exit 1
+fi
+
+FOLDER=./hp_folder
+
 # Set the length of HP sequences to test
-N=6
+N="$1"
 
 # Output folders
 mkdir -p all_structures
-> all_unique.txt
+>> all_unique.txt
 
 # Total sequences: 2^N
 TOTAL=$((1 << N))
@@ -24,14 +32,14 @@ for ((i=0; i<TOTAL; i++)); do
   fi
 
   # Run the sequence
-  OUTPUT=$(./hp_folder "$SEQ" 2>&1)
+  OUTPUT=$("$FOLDER" "$SEQ" 2>&1)
 
   if echo "$OUTPUT" | grep -q "Found 1 optimal solutions"; then
     echo "✅ Unique: $SEQ"
     echo "$SEQ" >> all_unique.txt
 
     # Save the fold structure
-    STRUCT=$(echo "$OUTPUT" | awk '/-----/{f=1} f; /-----/{if (++count==2) exit}')
+    STRUCT=$(echo "$OUTPUT" | awk '/---/{f=1} f; /---/{if (++count==2) exit}')
     echo "$STRUCT" > "all_structures/${SEQ}.txt"
   else
     echo "❌ Non-unique: $SEQ"
