@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Set the length of HP sequences to test
+N=6
+
+# Output folders
+mkdir -p all_structures
+> all_unique.txt
+
+# Total sequences: 2^N
+TOTAL=$((1 << N))
+echo "Testing all $TOTAL sequences of length $N..."
+
+for ((i=0; i<TOTAL; i++)); do
+  # Convert to N-digit binary string (e.g., 000101)
+  BIN=$(printf "%0${N}d" "$(echo "obase=2; $i" | bc)")
+
+  # Convert binary to HP sequence (0→H, 1→P)
+  SEQ=$(echo "$BIN" | tr '01' 'HP')
+
+  # Skip bad conversions
+  if [[ -z "$SEQ" || ${#SEQ} -ne $N ]]; then
+    continue
+  fi
+
+  # Run the sequence
+  OUTPUT=$(./hp_folder "$SEQ" 2>&1)
+
+  if echo "$OUTPUT" | grep -q "Found 1 optimal solutions"; then
+    echo "✅ Unique: $SEQ"
+    echo "$SEQ" >> all_unique.txt
+
+    # Save the fold structure
+    STRUCT=$(echo "$OUTPUT" | awk '/-----/{f=1} f; /-----/{if (++count==2) exit}')
+    echo "$STRUCT" > "all_structures/${SEQ}.txt"
+  else
+    echo "❌ Non-unique: $SEQ"
+  fi
+done
+
