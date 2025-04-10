@@ -13,7 +13,6 @@ N="$1"
 
 # Output folders
 mkdir -p all_structures
->> all_unique.txt
 
 # Total sequences: 2^N
 TOTAL=$((1 << N))
@@ -40,7 +39,8 @@ for ((i=0; i<TOTAL; i++)); do
 
     # Save the fold structure
     STRUCT=$(echo "$OUTPUT" | awk '/---/{f=1} f; /---/{if (++count==2) exit}')
-    echo "$STRUCT" > "all_structures/${SEQ}.txt"
+    mkdir -p "all_structures/${N}"
+    echo "$STRUCT" > "all_structures/${N}/${SEQ}.txt"
   else
     echo "❌ Non-unique: $SEQ"
   fi
