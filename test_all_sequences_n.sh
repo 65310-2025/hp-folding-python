@@ -31,7 +31,9 @@ for ((i=0; i<TOTAL; i++)); do
   fi
 
   # Run the sequence
-  OUTPUT=$("$FOLDER" "$SEQ" 2>&1)
+  # First 0 means no lower bound on cost
+  # Second 0 means only print optimal foldings
+  OUTPUT=$("$FOLDER" "$SEQ" 0 0 2>&1)
 
   if echo "$OUTPUT" | grep -q "Found 1 optimal solutions"; then
     echo "✅ Unique: $SEQ"
